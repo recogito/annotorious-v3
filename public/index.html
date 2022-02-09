@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Annotorious v3 Core</title>
+    
+  </head>
+  <body>
+    <div id="content">    
+      <h1>Annotorious v3: Basic Example</h1>  
+      <img id="hallstatt" src="640px-Hallstatt.jpg">
+    </div>
+    <script type="module">
+      import Annotorious from '/src/main.js';
+
+      window.onload = function() {
+        Annotorious.init({
+          image: 'hallstatt'
+        });
+      }
+    </script>
+  </body>
+</html>
