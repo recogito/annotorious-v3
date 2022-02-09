@@ -15,9 +15,11 @@
       import Annotorious from '/src/main.js';
 
       window.onload = function() {
-        Annotorious.init({
+        var anno = Annotorious.init({
           image: 'hallstatt'
         });
+
+        anno.loadAnnotations('/annotations.w3c.json');
       }
     </script>
   </body>

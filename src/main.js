@@ -1,12 +1,39 @@
-/*import App from './App.svelte'
+import ImageAnnotator from './ImageAnnotator.svelte'
 
-const app = new App({
-  target: document.getElementById('app')
-})
-*/
+class Annotorious {
 
-export default {
+  constructor(config) {
+    // Host app may supply the image as either a DOM node or ID - normalize
+    const imageEl = (config.image.nodeType) ?
+      config.image : document.getElementById(config.image);
 
-  init: config => console.log('yay', config)
+    // We'll wrap the image in a DIV ('_element'). The application
+    // container DIV, which holds the editor popup, will be attached
+    // as a child to the same wrapper element (=a sibling to the image
+    // element), so that editor and image share the same offset coordinate
+    // space.
+    this._element = document.createElement('DIV');
+    this._element.style.position = 'relative';
+    this._element.style.display = 'inline-block';
 
+    imageEl.parentNode.insertBefore(this._element, imageEl);
+    this._element.appendChild(imageEl);
+
+    this._app = new ImageAnnotator({
+      target: this._element
+    });
+  }
+
+  loadAnnotations = url => fetch(url)
+    .then(response => response.json()).then(annotations => {
+      this.setAnnotations(annotations);
+      return annotations;
+    });
+
+  setAnnotations = a => {
+    const annotations = a || []; // Allow null arg
+    this._app.setAnnotations(annotations);
+  }
 }
+
+export default { init: config => new Annotorious(config) };
