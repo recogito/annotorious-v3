@@ -1,4 +1,6 @@
-import ImageAnnotator from './ImageAnnotator.svelte'
+import ImageAnnotator from './ImageAnnotator.svelte';
+import AnnotationStore from './AnnotationStore';
+import WebAnnotation from './w3c/WebAnnotation';
 
 class Annotorious {
 
@@ -32,7 +34,8 @@ class Annotorious {
 
   setAnnotations = a => {
     const annotations = a || []; // Allow null arg
-    this._app.setAnnotations(annotations);
+    const wrapped = annotations.map(a => ({ annotation: new WebAnnotation(a) }));
+    AnnotationStore.set(wrapped);
   }
 }
 

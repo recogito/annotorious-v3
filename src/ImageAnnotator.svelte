@@ -1,15 +1,11 @@
 <script>
   import Annotation from './Annotation.svelte';
-
-  let annotations = [];
-
-  export const setAnnotations = a =>
-    annotations = a;
+  import annotations from './AnnotationStore';
 </script>
 
 <svg class="a9s-annotationlayer">
-  {#each annotations as annotation}
-    <Annotation />
+  {#each $annotations as { annotation, state} }
+    <Annotation annotation={annotation} state={state} />
   {/each}
 </svg>
 
