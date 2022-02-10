@@ -1,6 +1,8 @@
 <script>
   import Annotation from './Annotation.svelte';
   import annotations from './AnnotationStore';
+
+  console.log('rendering store');
 </script>
 
 <svg class="a9s-annotationlayer">
