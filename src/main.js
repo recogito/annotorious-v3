@@ -34,7 +34,7 @@ class Annotorious {
 
   setAnnotations = a => {
     const annotations = a || []; // Allow null arg
-    const wrapped = annotations.map(a => ({ annotation: new WebAnnotation(a) }));
+    const wrapped = annotations.map(a => ({ annotation: new WebAnnotation(a), state: {} }));
     AnnotationStore.set(wrapped);
   }
 }

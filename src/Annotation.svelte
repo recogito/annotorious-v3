@@ -1,5 +1,6 @@
 <script>
   import annotations from './AnnotationStore';
+
   import { parseRectFragment } from './w3c/fragments/RectFragment';
 
   export let annotation;
@@ -7,31 +8,26 @@
 
   const {x, y, w, h} = parseRectFragment(annotation);
 
-  const onMouseover = () => {
-    $annotations = $annotations.map(a => {
-      if (a.annotation == annotation) {
-        return { annotation: a.annotation, state: { mouseover: true }}
-      } else {
-        return a;
-      }
-    });
-  }
+  const onClick = () =>
+    annotation.setState(annotation, { isSelected: true });
 
-  const onMouseout = () => {
-    annotations.set($annotations.map(a => {
-      if (a.annotation == annotation) {
-        return { annotation, state: null }
-      } else {
-        return a;
-      }
-    }));
-  }
+  const onMouseover = () =>
+    annotations.setState(annotation, { isHovered: true });
 
-  $: className = state?.mouseover ? 'a9s-annotation hover' : 'a9s-annotation';
+  const onMouseout = () =>
+    annotations.setState(annotation, { isHovered : false });
 </script>
 
-<g class={className} on:mouseover={onMouseover} on:mouseout={onMouseout}>
+<g 
+  class="a9s-annotation"
+  class:hover={state.isHovered}
+  class:selected={state.isSelected} 
+  on:click={onClick}
+  on:mouseover={onMouseover} 
+  on:mouseout={onMouseout}>
+  
   <rect x={x} y={y} width={w} height={h} />
+
 </g>
 
 <style>
