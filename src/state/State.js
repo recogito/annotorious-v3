@@ -23,7 +23,7 @@ const StateStore = () => {
     currentSelected: state.currentSelected,
 
     shapes: state.shapes.map(s => {
-      if (s.id === shape.id) {
+      if (shape && s.id === shape.id) {
         // Set hovered state on this shape 
         return { ...s, state: { ...s.state, isHovered: true }};
       } else if (s.state.isHovered) {
@@ -36,7 +36,8 @@ const StateStore = () => {
   }));
 
   const setSelected = shapes => update(state => {
-    const selected = Array.isArray(shapes) ? shapes : [ shapes ];
+    const selected = shapes ? 
+      Array.isArray(shapes) ? shapes : [ shapes ] : [];
 
     const ids = new Set(selected.map(s => s.id));
 
@@ -59,15 +60,30 @@ const StateStore = () => {
     };
   });
 
-  const updateShape = (shape, updated) => {
+  const updateShape = (shape, updated) => {    
+    update(state => {
+      const { currentHover, currentSelected } = state;
 
-    // TODO check if the update contained a change to hover/selected
-    
-    update(state => ({
-      ...state,
-      shapes: state.shapes.map(s => s.id === shape.id ? 
-        updated : s)
-    }));
+      // Did currentHover change?
+      if (updated.isHovered && currentHover?.id !== updated.id) {
+        setHover(updated);
+      } else if (!updated.isHovered && currentHover?.id === updated.id) {
+        setHover(null);
+      }
+
+      // Did selected change?
+      if (updated.isSelected && !currentSelected.includes(shape)) {
+        setSelected([...currentSelected, updated ]);
+      } else if (!updated.isSelected && currentSelected.includes(shape)) {
+        setSelected(currentSelected.filter(s => s.id != updated.id));
+      }
+
+      return {
+        ...state,
+        shapes: state.shapes.map(s => s.id === shape.id ? 
+          updated : s)
+      }
+    });
   }
 
   const setGeometry = (shape, geometry) => {
