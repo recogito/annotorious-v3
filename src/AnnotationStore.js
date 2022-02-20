@@ -11,7 +11,7 @@ const AnnotationStore = () => {
       update(tuples => tuples.map(t =>
         t.annotation === annotation ?
           { annotation, state: arg(t.state) } : t ));
-    } else {
+    } else {a
       update(tuples => tuples.map(t => 
         t.annotation === annotation ?
           { annotation, state: { ...t.state, ...arg } } : t));

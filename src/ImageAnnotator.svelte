@@ -1,48 +1,23 @@
 <script>
   import Annotation from './Annotation.svelte';
-  import annotations from './AnnotationStore';
-
-  import selection from './Selection';
+  import shapes from './ShapeStore';
 
   export let toolActivation;
-
-  const onPointerDown = evt => {    
-    console.log(toolActivation);
-
-    /*
-    const { offsetX, offsetY } = evt;
-    $selection = { x: offsetX, y: offsetY, w: 0, h: 0 };
-    */
-  }
-
-  const onPointerUp = evt => {
-    // $selection = null;
-  }
-
-  const onPointerMove = evt => {
-    /*
-    if ($selection) {
-      const { x, y } = $selection;
-      const w = evt.offsetX - x;
-      const h = evt.offsetY - y;
-      $selection = { ...$selection, w, h };
-    }
-    */
-  }
 </script>
 
 <svg 
-  class="a9s-annotationlayer" 
-  on:pointerdown={onPointerDown}
-  on:pointerup={onPointerUp} 
-  on:pointermove={onPointerMove}>
+  class="a9s-annotationlayer">
   
-  {#each $annotations as { annotation, state} }
-    <Annotation annotation={annotation} state={state} />
+  {#each $shapes as shape }
+    <Annotation 
+      annotation={annotation} 
+      state={state} 
+      on:select={onSelect} />
   {/each}
 
   {#if $selection}
-    <rect class="a9s-selection" x={$selection.x} y={$selection.y} width={$selection.w} height={$selection.h} />
+    <EditableRect {...$selection} 
+      onChangeShape={onChangeEditableShape}/>
   {/if}
 </svg>
 
