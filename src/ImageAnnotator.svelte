@@ -4,22 +4,30 @@
 
   import selection from './Selection';
 
+  export let toolActivation;
+
   const onPointerDown = evt => {    
+    console.log(toolActivation);
+
+    /*
     const { offsetX, offsetY } = evt;
     $selection = { x: offsetX, y: offsetY, w: 0, h: 0 };
+    */
   }
 
   const onPointerUp = evt => {
-    $selection = null;
+    // $selection = null;
   }
 
   const onPointerMove = evt => {
+    /*
     if ($selection) {
       const { x, y } = $selection;
       const w = evt.offsetX - x;
       const h = evt.offsetY - y;
       $selection = { ...$selection, w, h };
     }
+    */
   }
 </script>
 

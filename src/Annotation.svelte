@@ -9,7 +9,7 @@
   const {x, y, w, h} = parseRectFragment(annotation);
 
   const onClick = () =>
-    annotation.setState(annotation, { isSelected: true });
+    annotations.setState(annotation, { isSelected: true });
 
   const onMouseover = () =>
     annotations.setState(annotation, { isHovered: true });

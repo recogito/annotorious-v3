@@ -5,19 +5,23 @@ const AnnotationStore = () => {
   const { subscribe, set, update } = writable([]);
 
   // Replaces state for one annotation
-  const replaceState = (annotation, state) => update(tuples => tuples.map(t => 
-    t.annotation === annotation ?
-      { annotation, state } : t));
-
-  // Updates state for one annotation, using a function oldState => newState
-  const updateState = (annotation, updateFn) => update(tuples => tuples.map(t =>
-    t.annotation === annotation ?
-      { annotation, state: updateFn(t.state) } : t ));
+  const setState = (annotation, arg) => {
+    // arg can be an object or a function prevState => nextState
+    if (typeof arg === 'function') {
+      update(tuples => tuples.map(t =>
+        t.annotation === annotation ?
+          { annotation, state: arg(t.state) } : t ));
+    } else {
+      update(tuples => tuples.map(t => 
+        t.annotation === annotation ?
+          { annotation, state: { ...t.state, ...arg } } : t));
+    }
+  }
 
   return {
     subscribe,
     set,
-    setState: (a, arg) => typeof arg === 'function' ? updateState(a, arg) : replaceState(a, arg)
+    setState
   };
 
 }

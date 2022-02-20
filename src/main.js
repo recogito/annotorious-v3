@@ -22,7 +22,10 @@ class Annotorious {
     this._element.appendChild(imageEl);
 
     this._app = new ImageAnnotator({
-      target: this._element
+      target: this._element,
+      props: {
+        toolActivation: 'MANUAL' // or 'ALWAYS_ON'
+      }
     });
   }
 
