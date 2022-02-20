@@ -17,13 +17,13 @@ const StateStore = () => {
     ...state, shapes
   }));
 
-  const setHover = shape => update(state => ({ 
+  const setHover = shape => update(state => ({  
     currentHover: shape,
 
     currentSelected: state.currentSelected,
 
     shapes: state.shapes.map(s => {
-      if (shape && s.id === shape.id) {
+      if (shape && shape.id === s.id) {
         // Set hovered state on this shape 
         return { ...s, state: { ...s.state, isHovered: true }};
       } else if (s.state.isHovered) {

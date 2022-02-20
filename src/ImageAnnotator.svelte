@@ -1,24 +1,14 @@
 <script>
-  import Annotation from './Annotation.svelte';
-  import shapes from './ShapeStore';
-
-  export let toolActivation;
+  import State from './state/State';
+  import Rectangle from './shapes/rectangle/Rectangle.svelte';
 </script>
 
 <svg 
   class="a9s-annotationlayer">
   
-  {#each $shapes as shape }
-    <Annotation 
-      annotation={annotation} 
-      state={state} 
-      on:select={onSelect} />
+  {#each $State.shapes as shape}
+    <Rectangle shape={shape} />
   {/each}
-
-  {#if $selection}
-    <EditableRect {...$selection} 
-      onChangeShape={onChangeEditableShape}/>
-  {/if}
 </svg>
 
 <style>

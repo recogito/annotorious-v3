@@ -1,17 +1,33 @@
 <script>
-  export let id;
+  import State from '../../state/State';
 
-  export let x;
-  export let y;
-  export let w;
-  export let h;
+  export let shape;
 
-  export let state;
+  const onMouseOver = () =>
+    State.setHover(shape);
+
+  const onMouseOut = () =>
+    State.setHover(null);
 </script>
 
 <g 
   class="a9s-annotation"
-  class:hover={state.isHovered}
-  class:selected={state.isSelected}>
-    <rect x={x} y={y} width={w} height={h} />
+  class:hover={shape.state.isHovered}
+  class:selected={shape.state.isSelected}
+  on:mouseover={onMouseOver}
+  on:mouseout={onMouseOut}>
+
+  <rect x={shape.geometry.x} y={shape.geometry.y} width={shape.geometry.w} height={shape.geometry.h} />
 </g>
+
+<style>
+  rect {
+    stroke:red;
+    stroke-width:2px;
+    fill:transparent;
+  }
+
+  .hover rect {
+    stroke:yellow;
+  }
+</style>

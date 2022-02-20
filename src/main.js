@@ -1,6 +1,8 @@
 import ImageAnnotator from './ImageAnnotator.svelte';
-import AnnotationStore from './AnnotationStore';
+import State from './state/State';
+
 import WebAnnotation from './w3c/WebAnnotation';
+import { parseRectFragment } from './w3c/fragments/RectFragment';
 
 class Annotorious {
 
@@ -24,7 +26,7 @@ class Annotorious {
     this._app = new ImageAnnotator({
       target: this._element,
       props: {
-        toolActivation: 'MANUAL' // or 'ALWAYS_ON'
+        // toolActivation: 'MANUAL' // or 'ALWAYS_ON'
       }
     });
   }
@@ -37,8 +39,14 @@ class Annotorious {
 
   setAnnotations = a => {
     const annotations = a || []; // Allow null arg
-    const wrapped = annotations.map(a => ({ annotation: new WebAnnotation(a), state: {} }));
-    AnnotationStore.set(wrapped);
+
+    const shapes = annotations.map(a => ({
+      id: a.id,
+      geometry: parseRectFragment(new WebAnnotation(a)),
+      state: {}
+    }));
+  
+    State.setShapes(shapes);
   }
 }
 
