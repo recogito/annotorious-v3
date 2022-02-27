@@ -6,7 +6,6 @@
   export let annotation;
   export let state;
 
-
   const dispatch = createEventDispatcher();
 
   const EDGE_HANDLE_WIDTH = 6;

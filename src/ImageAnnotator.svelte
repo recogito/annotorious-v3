@@ -1,14 +1,21 @@
 <script>
   import State from './state/State';
+  import Hover from './state/Hover';
   import Rectangle from './shapes/rectangle/Rectangle.svelte';
+
+  const onClick = () => {
+    State.setSelected($Hover);
+  }
 </script>
 
 <svg 
-  class="a9s-annotationlayer">
-  
-  {#each $State.shapes as shape}
-    <Rectangle shape={shape} />
-  {/each}
+  class="a9s-annotationlayer" on:click={onClick}>
+
+  <g>
+    {#each $State.shapes as shape}
+      <Rectangle shape={shape} />
+    {/each}
+  </g>
 </svg>
 
 <style>
