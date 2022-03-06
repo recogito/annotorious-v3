@@ -1,11 +1,23 @@
 <script>
-  import { createEventDispatcher } from 'svelte';
+  // import { createEventDispatcher } from 'svelte';
 
   export let shape;
 
   // const dispatch = createEventDispatcher();
 
   const EDGE_HANDLE_WIDTH = 6;
+
+  const onGrab = handle => evt => {
+    evt.target.setPointerCapture(evt.pointerId);
+  }
+
+  const onPointereMove = evt => {
+    console.log(evt);
+  }
+
+  const onRelease = evt => {
+    evt.target.releasePointerCapture(evt.pointerId);
+  }
 </script>
 
 <g 
@@ -16,6 +28,9 @@
 
   <rect 
     class="a9s-edge-handle a9s-edge-handle-top" 
+    on:pointerdown={onGrab('top')}
+    on:pointerup={onRelease}
+    on:pointermove={onPointereMove}
     x={shape.geometry.x} y={shape.geometry.y - EDGE_HANDLE_WIDTH} width={shape.geometry.w} height={EDGE_HANDLE_WIDTH} />
 
   <rect 
