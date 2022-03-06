@@ -7,6 +7,8 @@
   const onClick = () => {
     State.setSelected($Hover);
   }
+
+  $: console.log($State.currentSelected)
 </script>
 
 <svg 

@@ -44,7 +44,9 @@ const StateStore = () => {
     return { 
       currentHover: state.currentHover,
 
-      currentSelected: selected,
+      currentSelected: selected.map(s => ({
+        ...s, state: { ...s.state, isSelected: true }
+      })),
 
       shapes: state.shapes.map(s => {
         if (ids.has(s.id)) {
@@ -62,6 +64,9 @@ const StateStore = () => {
 
   const updateShape = (shape, updated) => {    
     update(state => {
+      const isSelected = shape => 
+        state.currentSelected.map(s => s.id).includes(shape.id);
+
       const { currentHover, currentSelected } = state;
 
       // Did currentHover change?
@@ -72,9 +77,9 @@ const StateStore = () => {
       }
 
       // Did selected change?
-      if (updated.isSelected && !currentSelected.includes(shape)) {
+      if (updated.state.isSelected && !isSelected(shape)) {
         setSelected([...currentSelected, updated ]);
-      } else if (!updated.isSelected && currentSelected.includes(shape)) {
+      } else if (!updated.state.isSelected && isSelected(shape)) {
         setSelected(currentSelected.filter(s => s.id != updated.id));
       }
 
@@ -88,6 +93,7 @@ const StateStore = () => {
 
   const setGeometry = (shape, geometry) => {
     const updated = { ...shape, geometry };
+    console.log(updated);
     updateShape(shape, updated);
   }
 

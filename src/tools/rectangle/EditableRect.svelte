@@ -1,22 +1,36 @@
 <script>
-  // import { createEventDispatcher } from 'svelte';
-
+  import State from '../../state/State';
   export let shape;
-
-  // const dispatch = createEventDispatcher();
 
   const EDGE_HANDLE_WIDTH = 6;
 
+  let grabbed = null;
+
   const onGrab = handle => evt => {
     evt.target.setPointerCapture(evt.pointerId);
+    grabbed = handle;
   }
 
-  const onPointereMove = evt => {
-    console.log(evt);
+  const onPointerMove = evt => {
+    if (grabbed) {
+      const { offsetX, offsetY } = evt;
+
+      if (grabbed === 'TOP') {
+        const bottom = shape.geometry.y + shape.geometry.h;
+        State.setGeometry(shape, { 
+          x: shape.geometry.x,
+          y: offsetY,
+          w: shape.geometry.w,
+          h: bottom - offsetY 
+        });
+      }
+
+    }
   }
 
   const onRelease = evt => {
     evt.target.releasePointerCapture(evt.pointerId);
+    grabbed = null;
   }
 </script>
 
@@ -28,9 +42,9 @@
 
   <rect 
     class="a9s-edge-handle a9s-edge-handle-top" 
-    on:pointerdown={onGrab('top')}
+    on:pointerdown={onGrab('TOP')}
     on:pointerup={onRelease}
-    on:pointermove={onPointereMove}
+    on:pointermove={onPointerMove}
     x={shape.geometry.x} y={shape.geometry.y - EDGE_HANDLE_WIDTH} width={shape.geometry.w} height={EDGE_HANDLE_WIDTH} />
 
   <rect 
