@@ -1,5 +1,6 @@
 <script>
   import State from '../../state/State';
+  
   export let shape;
 
   const EDGE_HANDLE_WIDTH = 6;
@@ -32,6 +33,8 @@
     evt.target.releasePointerCapture(evt.pointerId);
     grabbed = null;
   }
+
+  $: console.log(shape);
 </script>
 
 <g 

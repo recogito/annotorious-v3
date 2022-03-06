@@ -5,6 +5,7 @@
   import EditableRect from './tools/rectangle/EditableRect.svelte';
 
   const onClick = () => {
+    console.log('click');
     State.setSelected($Hover);
   }
 </script>

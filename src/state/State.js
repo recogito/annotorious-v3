@@ -36,6 +36,8 @@ const StateStore = () => {
   }));
 
   const setSelected = shapes => update(state => {
+    console.log('setting selected', shapes);
+    
     const selected = shapes ? 
       Array.isArray(shapes) ? shapes : [ shapes ] : [];
 
@@ -69,7 +71,6 @@ const StateStore = () => {
 
       const { currentHover, currentSelected } = state;
 
-      let updatedHover = currentHover;
       let updatedSelected = currentSelected;
 
       // Did currentHover change?
