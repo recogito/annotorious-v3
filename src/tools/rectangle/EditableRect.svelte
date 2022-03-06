@@ -1,40 +1,35 @@
 <script>
   import { createEventDispatcher } from 'svelte';
 
-  import { parseRectFragment } from '../../w3c/fragments/RectFragment';
+  export let shape;
 
-  export let annotation;
-  export let state;
-
-  const dispatch = createEventDispatcher();
+  // const dispatch = createEventDispatcher();
 
   const EDGE_HANDLE_WIDTH = 6;
-
-  const {x, y, w, h} = parseRectFragment(annotation);
 </script>
 
-{#if !state.isEditing}
-  <g 
-    class="a9s-annotation selected editable">
-    <rect x={x} y={y} width={w} height={h} />
+<g 
+  class="a9s-annotation selected"
+  class:hover={shape.state.isHovered}>
 
-    <rect 
-      class="a9s-edge-handle a9s-edge-handle-top" 
-      x={x} y={y - EDGE_HANDLE_WIDTH} width={w} height={EDGE_HANDLE_WIDTH} />
+  <rect x={shape.geometry.x} y={shape.geometry.y} width={shape.geometry.w} height={shape.geometry.h} />
 
-    <rect 
-      class="a9s-edge-handle a9s-edge-handle-right" 
-      x={x + w} y={y} width={EDGE_HANDLE_WIDTH} height={h}/>
+  <rect 
+    class="a9s-edge-handle a9s-edge-handle-top" 
+    x={shape.geometry.x} y={shape.geometry.y - EDGE_HANDLE_WIDTH} width={shape.geometry.w} height={EDGE_HANDLE_WIDTH} />
 
-    <rect 
-      class="a9s-edge-handle a9s-edge-handle-bottom" 
-      x={x} y={y + h} width={w} height={EDGE_HANDLE_WIDTH}/>
+  <rect 
+    class="a9s-edge-handle a9s-edge-handle-right" 
+    x={shape.geometry.x + shape.geometry.w} y={shape.geometry.y} width={EDGE_HANDLE_WIDTH} height={shape.geometry.h}/>
 
-    <rect 
-      class="a9s-edge-handle a9s-edge-handle-left" 
-      x={x - EDGE_HANDLE_WIDTH} y={y} width={EDGE_HANDLE_WIDTH} height={h}/>
-  </g>
-{/if}
+  <rect 
+    class="a9s-edge-handle a9s-edge-handle-bottom" 
+    x={shape.geometry.x} y={shape.geometry.y + shape.geometry.h} width={shape.geometry.w} height={EDGE_HANDLE_WIDTH}/>
+
+  <rect 
+    class="a9s-edge-handle a9s-edge-handle-left" 
+    x={shape.geometry.x - EDGE_HANDLE_WIDTH} y={shape.geometry.y} width={EDGE_HANDLE_WIDTH} height={shape.geometry.h}/>
+</g>
 
 <style>
   rect {

@@ -2,6 +2,7 @@
   import State from './state/State';
   import Hover from './state/Hover';
   import Rectangle from './shapes/rectangle/Rectangle.svelte';
+  import EditableRect from './tools/rectangle/EditableRect.svelte';
 
   const onClick = () => {
     State.setSelected($Hover);
@@ -13,7 +14,12 @@
 
   <g>
     {#each $State.shapes as shape}
-      <Rectangle shape={shape} />
+      {#if !shape.state.isSelected}
+        <Rectangle shape={shape} />
+      {/if}
+    {/each}
+    {#each $State.currentSelected as shape}
+      <EditableRect shape={shape} />
     {/each}
   </g>
 </svg>
