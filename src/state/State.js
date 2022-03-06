@@ -69,6 +69,9 @@ const StateStore = () => {
 
       const { currentHover, currentSelected } = state;
 
+      let updatedHover = currentHover;
+      let updatedSelected = currentSelected;
+
       // Did currentHover change?
       if (updated.isHovered && currentHover?.id !== updated.id) {
         setHover(updated);
@@ -77,14 +80,18 @@ const StateStore = () => {
       }
 
       // Did selected change?
-      if (updated.state.isSelected && !isSelected(shape)) {
-        setSelected([...currentSelected, updated ]);
+      if (updated.state.isSelected) {
+        updatedSelected = [
+          ...currentSelected.filter(s => s.id !== updated.id),
+          updated 
+        ];
       } else if (!updated.state.isSelected && isSelected(shape)) {
-        setSelected(currentSelected.filter(s => s.id != updated.id));
+        updatedSelected = currentSelected.filter(s => s.id != updated.id);
       }
 
       return {
         ...state,
+        currentSelected: updatedSelected,
         shapes: state.shapes.map(s => s.id === shape.id ? 
           updated : s)
       }
@@ -93,7 +100,6 @@ const StateStore = () => {
 
   const setGeometry = (shape, geometry) => {
     const updated = { ...shape, geometry };
-    console.log(updated);
     updateShape(shape, updated);
   }
 
