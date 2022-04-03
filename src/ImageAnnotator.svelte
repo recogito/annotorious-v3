@@ -46,4 +46,8 @@
         -o-user-select:none;
             user-select:none;
   }
+
+  :global(.a9s-annotation) {
+    cursor:pointer;
+  }
 </style>

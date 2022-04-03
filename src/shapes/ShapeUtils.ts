@@ -1,4 +1,12 @@
-import type { Shape, ShapeUtil } from './Shape';
+import type { Shape } from './Shape';
+
+export interface ShapeUtil<T extends Shape> {
+
+  area: (shape: T) => number
+  
+  intersects: (shape: T, x: number, y: number) => boolean
+
+}
 
 const Utils: { [key: symbol]: ShapeUtil<any> } = {};
 

@@ -1,3 +1,5 @@
+import type { Bounds } from './Bounds';
+
 export interface Shape {
 
   id: string
@@ -25,25 +27,4 @@ export interface Shape {
   }
 
 }
-
-export interface Bounds {
-
-  minX: number
-  
-  minY: number
-
-  maxX: number 
-
-  maxY: number
-
-}
-
-export interface ShapeUtil<T extends Shape> {
-
-  area: (shape: T) => number
-  
-  intersects: (shape: T, x: number, y: number) => boolean
-
-}
-
 

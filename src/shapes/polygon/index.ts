@@ -1,6 +1,8 @@
 import { registerShapeUtil } from '../ShapeUtils';
 
-import type { Bounds, Shape, ShapeUtil } from '../Shape';
+import type { Bounds } from '../Bounds';
+import type { Shape } from '../Shape';
+import type { ShapeUtil } from '../ShapeUtils';
 
 export const POLYGON = Symbol('POLYGON');
 
