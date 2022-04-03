@@ -4,19 +4,16 @@
   export let shape;
 
   const onMouseOver = () =>
-    State.setHover(shape);
+    State.setHovered(shape);
 
   const onMouseOut = () =>
-    State.setHover(null);
+    State.setHovered(null);
 </script>
 
 <g 
   class="a9s-annotation"
   class:hover={shape.state.isHovered}
-  class:selected={shape.state.isSelected}
-  on:mouseover={onMouseOver}
-  on:mouseout={onMouseOut}>
-
+  class:selected={shape.state.isSelected}>
   <rect x={shape.geometry.x} y={shape.geometry.y} width={shape.geometry.w} height={shape.geometry.h} />
 </g>
 

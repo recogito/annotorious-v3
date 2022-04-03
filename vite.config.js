@@ -10,7 +10,7 @@ export default defineConfig({
   build: {
     sourcemap: true,
     lib: {
-      entry: './src/main.js',
+      entry: './src/index.ts',
       name: 'Annotorious',
       formats: [ 'umd' ]
     }

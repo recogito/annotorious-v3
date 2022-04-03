@@ -1,10 +1,16 @@
-import ImageAnnotator from './ImageAnnotator.svelte';
 import State from './state/State';
+import ImageAnnotator from './ImageAnnotator.svelte';
 
 import WebAnnotation from './w3c/WebAnnotation';
 import { parseRectFragment } from './w3c/fragments/RectFragment';
 
+import type { Shape } from './Types';
+
 class Annotorious {
+  
+  private _element: HTMLElement;
+
+  private _app: ImageAnnotator;
 
   constructor(config) {
     // Host app may supply the image as either a DOM node or ID - normalize
@@ -31,20 +37,33 @@ class Annotorious {
     });
   }
 
-  loadAnnotations = url => fetch(url)
+  loadAnnotations = (url: string) => fetch(url)
     .then(response => response.json()).then(annotations => {
       this.setAnnotations(annotations);
       return annotations;
     });
 
-  setAnnotations = a => {
+  setAnnotations = (a: Array<any>) => {
     const annotations = a || []; // Allow null arg
 
-    const shapes = annotations.map(a => ({
-      id: a.id,
-      geometry: parseRectFragment(new WebAnnotation(a)),
-      state: {}
-    }));
+    const shapes: Shape[] = annotations.map(a => {
+
+      const geometry = parseRectFragment(new WebAnnotation(a), null);
+  
+      return {
+        id: a.id as string,
+        geometry: {
+          ...geometry,
+          bounds: {
+            minX: geometry.x,
+            minY: geometry.y,
+            maxX: geometry.x + geometry.w,
+            maxY: geometry.y + geometry.h,
+          }
+        },
+        state: {}
+      }
+    });
   
     State.setShapes(shapes);
   }

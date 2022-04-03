@@ -1,25 +1,32 @@
 <script>
+  import { Shapes, CurrentSelection, CurrentHover } from './state';
   import State from './state/State';
-  import Hover from './state/Hover';
+  
   import Rectangle from './shapes/rectangle/Rectangle.svelte';
   import EditableRect from './tools/rectangle/EditableRect.svelte';
 
-  const onClick = () => {
-    console.log('click');
-    State.setSelected($Hover);
+  const onPointerMove = evt => {
+    const { offsetX, offsetY } = evt;
+    const hovered = State.getAnnotationAt(offsetX, offsetY);
+
+    const hasChanged = hovered?.id !== $CurrentHover?.id;
+    if (hasChanged) {
+      State.setHovered(hovered);
+    }
   }
 </script>
 
 <svg 
-  class="a9s-annotationlayer" on:click={onClick}>
+  class="a9s-annotationlayer"
+  on:pointermove={onPointerMove}>
 
   <g>
-    {#each $State.shapes as shape}
+    {#each $Shapes as shape}
       {#if !shape.state.isSelected}
         <Rectangle shape={shape} />
       {/if}
     {/each}
-    {#each $State.currentSelected as shape}
+    {#each $CurrentSelection as shape}
       <EditableRect shape={shape} />
     {/each}
   </g>
@@ -38,11 +45,5 @@
         -ms-user-select:none;
         -o-user-select:none;
             user-select:none;
-  }
-
-  .a9s-selection {
-    stroke:green;
-    stroke-width:2px;
-    fill:none;
   }
 </style>
