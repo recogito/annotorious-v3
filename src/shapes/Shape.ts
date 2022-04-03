@@ -2,7 +2,7 @@ export interface Shape {
 
   id: string
 
-  type: string,
+  type: symbol,
 
   bodies?: Object[]
 

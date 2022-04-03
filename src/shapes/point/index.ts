@@ -2,7 +2,7 @@ import { registerShapeUtil } from '../ShapeUtils';
 
 import type { Shape, ShapeUtil } from '../Shape';
 
-const BUFFER = 5;
+export const POINT = Symbol('POINT');
 
 export interface Point extends Shape {
 
@@ -12,16 +12,18 @@ export interface Point extends Shape {
 
 }
 
-export const PointUtil: ShapeUtil<Point> = {
+const PointUtil: ShapeUtil<Point> = {
 
   // Area is always 0
-  area: (point: Point) => 0,
+  area: (point: Point): number => 0,
 
   // TODO what about buffer & scaled images?
-  intersects: (point: Point, x: number, y: number) =>
-    x >= point.x - BUFFER && 
-    x <= point.x + BUFFER &&
-    y >= point.y - BUFFER &&
-    y <= point.y + BUFFER
+  intersects: (point: Point, x: number, y: number): boolean => 
+    x >= point.x - 1 && 
+    x <= point.x + 1 &&
+    y >= point.y - 1 &&
+    y <= point.y + 1
 
 }
+
+registerShapeUtil(POINT, PointUtil);

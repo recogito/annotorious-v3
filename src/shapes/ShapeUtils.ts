@@ -1,8 +1,8 @@
 import type { Shape, ShapeUtil } from './Shape';
 
-const Utils: { [key: string]: ShapeUtil<any> } = {};
+const Utils: { [key: symbol]: ShapeUtil<any> } = {};
 
-export const registerShapeUtil = (key: string, util: ShapeUtil<any>) =>
+export const registerShapeUtil = (key: symbol, util: ShapeUtil<any>) =>
   Utils[key] = util;
 
 export const computeArea = (shape: Shape) =>
