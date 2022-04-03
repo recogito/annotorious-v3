@@ -8,7 +8,11 @@ export interface Shape {
 
   properties?: { [key: string]: Object }
 
-  geometry: Geometry
+  geometry: {
+    
+    bounds: Bounds
+
+  }
 
   state: {
 
@@ -22,23 +26,19 @@ export interface Shape {
 
 }
 
-export interface Geometry {
+export interface Bounds {
 
-  bounds: {
+  minX: number
+  
+  minY: number
 
-    minX: number
-  
-    minY: number
-  
-    maxX: number 
-  
-    maxY: number
-  
-  }
-  
+  maxX: number 
+
+  maxY: number
+
 }
 
-export interface ShapeUtil <T extends Shape> {
+export interface ShapeUtil<T extends Shape> {
 
   area: (shape: T) => number
   

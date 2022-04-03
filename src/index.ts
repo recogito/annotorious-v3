@@ -4,7 +4,8 @@ import ImageAnnotator from './ImageAnnotator.svelte';
 import WebAnnotation from './w3c/WebAnnotation';
 import { parseRectFragment } from './w3c/fragments/RectFragment';
 
-import type { Shape } from './Types';
+import type { Shape } from './shapes/Shape';
+import { RECTANGLE } from './shapes/rectangle';
 
 class Annotorious {
   
@@ -52,6 +53,7 @@ class Annotorious {
   
       return {
         id: a.id as string,
+        type: RECTANGLE,
         geometry: {
           ...geometry,
           bounds: {

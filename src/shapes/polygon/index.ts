@@ -1,19 +1,25 @@
 import { registerShapeUtil } from '../ShapeUtils';
 
-import type { Shape, ShapeUtil } from '../Shape';
+import type { Bounds, Shape, ShapeUtil } from '../Shape';
 
 export const POLYGON = Symbol('POLYGON');
 
 export interface Polygon extends Shape {
 
-  points: Array<{ x: number, y: number }>
+  geometry: {
+
+    points: Array<{ x: number, y: number }>
+
+    bounds: Bounds
+
+  }
 
 }
 
 const PolygonUtil: ShapeUtil<Polygon> = {
 
   area: (polygon: Polygon): number => {
-    const { points } = polygon;
+    const { points } = polygon.geometry;
 
     let area = 0;
     let j = points.length - 1;
@@ -28,7 +34,7 @@ const PolygonUtil: ShapeUtil<Polygon> = {
 
   intersects: (polygon: Polygon, x: number, y: number): boolean => {
     // Based on https://wrf.ecse.rpi.edu/Research/Short_Notes/pnpoly.html/pnpoly.html  
-    const { points } = polygon;
+    const { points } = polygon.geometry;
 
     let inside = false;
 

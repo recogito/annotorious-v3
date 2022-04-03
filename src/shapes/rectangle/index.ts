@@ -1,31 +1,39 @@
 import { registerShapeUtil } from '../ShapeUtils';
 
-import type { Shape, ShapeUtil } from '../Shape';
+import type { Shape, Bounds, ShapeUtil } from '../Shape';
 
 export const RECTANGLE = Symbol('RECTANGLE');
 
 export interface Rectangle extends Shape {
 
-  x: number
+  geometry: {
 
-  y: number
+    x: number
 
-  w: number
+    y: number
 
-  h: number
+    w: number
+
+    h: number,
+
+    bounds: Bounds
+
+  }
 
 }
 
 const RectangleUtil: ShapeUtil<Rectangle> = {
 
-  area: (rect: Rectangle): number => rect.w * rect.h,
+  area: (rect: Rectangle): number => {
+    return rect.geometry.w * rect.geometry.h;
+  },
 
   // TODO what about buffer & scaled images?
   intersects: (rect: Rectangle, x: number, y: number): boolean =>
-    x >= rect.x && 
-    x <= rect.x + rect.w &&
-    y >= rect.y  &&
-    y <= rect.y + rect.h
+    x >= rect.geometry.x && 
+    x <= rect.geometry.x + rect.geometry.w &&
+    y >= rect.geometry.y  &&
+    y <= rect.geometry.y + rect.geometry.h
 
 }
 

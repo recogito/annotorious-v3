@@ -1,14 +1,20 @@
 import { registerShapeUtil } from '../ShapeUtils';
 
-import type { Shape, ShapeUtil } from '../Shape';
+import type { Bounds, Shape, ShapeUtil } from '../Shape';
 
 export const POINT = Symbol('POINT');
 
 export interface Point extends Shape {
 
-  x: number
+  geometry: {
 
-  y: number
+    x: number
+
+    y: number
+
+    bounds: Bounds
+
+  }
 
 }
 
@@ -19,10 +25,10 @@ const PointUtil: ShapeUtil<Point> = {
 
   // TODO what about buffer & scaled images?
   intersects: (point: Point, x: number, y: number): boolean => 
-    x >= point.x - 1 && 
-    x <= point.x + 1 &&
-    y >= point.y - 1 &&
-    y <= point.y + 1
+    x >= point.geometry.x - 1 && 
+    x <= point.geometry.x + 1 &&
+    y >= point.geometry.y - 1 &&
+    y <= point.geometry.y + 1
 
 }
 

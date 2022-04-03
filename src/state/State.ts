@@ -1,7 +1,8 @@
 import { writable } from 'svelte/store';
 import RBush from 'rbush';
+import { computeArea } from '../shapes/ShapeUtils';
 
-import type { Shape } from '../Types';
+import type { Shape } from '../shapes/Shape';
 
 const tree = new RBush();
 
@@ -75,7 +76,10 @@ const AnnotationState = () => {
   const getAnnotationAt = (x: number, y: number) => {
     const all = tree.search({ minX: x, minY: y, maxX: x, maxY: y});
     if (all.length > 0) {
-      return all[0].shape; // TODO sort!
+      const shapes = all.map(item => item.shape as Shape);
+      shapes.sort((a, b) => computeArea(a) - computeArea(b));
+
+      return shapes[0];
     } else {
       return null;
     }
