@@ -7,9 +7,7 @@
   class="a9s-annotation"
   class:hover={shape.state.isHovered}
   class:selected={shape.state.isSelected}>
-
   <rect x={geom.x} y={geom.y} width={geom.w} height={geom.h} />
-
 </g>
 
 <style>
