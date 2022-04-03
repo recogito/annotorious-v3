@@ -10,5 +10,3 @@ export const CurrentHover = derived(State, $State =>
 
 export const Shapes = derived(State, $State =>
   Object.values($State.shapes));
-
-export const setHovered = State.setHovered;
